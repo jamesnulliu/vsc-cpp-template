@@ -55,7 +55,6 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
           # Should I disable this?
-          echo "ACTIONS_ALLOW_UNSECURE_COMMANDS=true" >> "$GITHUB_ENV"
           echo "CC=${{ matrix.c_compiler }}" >> "$GITHUB_ENV"
           echo "CXX=${{ matrix.cpp_compiler }}" >> "$GITHUB_ENV"
 
@@ -65,12 +64,9 @@ jobs:
         run: >
           bash scripts/build.sh
 
-      - name: Add msbuild to PATH
-        if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v1.0.1
-
       - name: Configure CMake and Build on Windows
         if: runner.os == 'Windows'
-        shell: cmd
+        shell: powershell
         run: >
+          cmd /K .\scripts\setup-msbuild.bat
           bash scripts/build.sh
