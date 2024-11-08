@@ -14,3 +14,5 @@ Windows:
 ```pwsh
 cmd /c scripts\build.bat
 ```
+
+## How to Contribute

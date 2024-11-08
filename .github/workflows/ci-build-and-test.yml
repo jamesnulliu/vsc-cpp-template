@@ -54,12 +54,9 @@ jobs:
         shell: bash
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-
+          # Should I disable this?
           echo "CC=${{ matrix.c_compiler }}" >> "$GITHUB_ENV"
           echo "CXX=${{ matrix.cpp_compiler }}" >> "$GITHUB_ENV"
-
-          echo "SPDLOG_PROJECT_DIR=${{ github.workspace }}/spdlog" >> "$GITHUB_ENV"
-          echo "SPDLOG_HOME=${{ github.workspace }}/spdlog-install" >> "$GITHUB_ENV"
 
       - name: Configure CMake and Build on Linux
         if: runner.os == 'Linux'
@@ -69,6 +66,7 @@ jobs:
 
       - name: Configure CMake and Build on Windows
         if: runner.os == 'Windows'
-        shell: cmd
+        shell: powershell
         run: >
-          cmd /c .\scripts\build.bat
+          cmd /K .\scripts\setup-msbuild.bat
+          bash scripts/build.sh
